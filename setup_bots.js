@@ -7,14 +7,14 @@
 //}
 
 // These are what you want to touch for gather_win_stats.html
-BOTS_TO_TEST = [TemplateBot, RandoBot, SimpleBot, SimpleBot2, CompetitiveBot, TimidBot]
-GAMES_TO_PLAY = 25
-MAX_MOVES = 1000 // Maximum number of moves that can occur before game is terminated as "unfinished"
-OUTPUT_FOLDER = "output"
+BOTS_TO_TEST = [TemplateBot, RandoBot, SimpleBot, SimpleBot2, GreedyBot, PositionBot, CompetitiveBot, TimidBot]
+// BOTS_TO_TEST = [TemplateBot, SimpleBot]
+GAMES_TO_PLAY = 10
+MAX_MOVES_AUTOMATE = 1000 // Maximum number of moves that can occur before game is terminated as "unfinished"
 
 // These are what you want to touch for game.html
 // Bot_1 = CompetitiveBot
-BOT_1 = TimidBot
+BOT_1 = TemplateBot
 BOT_2 = SimpleBot
 // BOT_1 = TemplateBot
 // BOT_2 = TemplateBot

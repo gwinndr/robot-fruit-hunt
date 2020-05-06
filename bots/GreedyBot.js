@@ -116,6 +116,13 @@ var GreedyBot = {
     {
         // A fruit on a board position means a number greater than 0
         var fruit_type = get_board()[x][y]
+
+        return isContestedFruitType(fruit_type)
+
+    },
+
+    isContestedFruitType: function(fruit_type)
+    {
         if(fruit_type == 0)
             return false;
 
@@ -141,20 +148,21 @@ var GreedyBot = {
     // finding the most valuable fruit
     mostValuableFruit: function(x, y)
     {
-      var numFruit = GreedyBot.board.numberOfItemTypes;
-      var fruit_type = get_board()[x][y]
-      if(fruit_type == 0)
-          return 0;
-      valFruit = get_total_item_count(fruit_type);
-      var cont = GreedyBot.isContestedFruit(x, y);
-      for(var i = 1; i < numFruit; i++) {
-          var total_fruit = get_total_item_count(i);
-          cont = GreedyBot.isContestedFruit(x, y);
-          if(total_fruit < valFruit && cont) {
-              index = i;
+      var numFruit = get_number_of_item_types()
+      var valFruit = Infinity;
+      var index = -1;
+      for(var i = 1; i <= numFruit; i++)
+      {
+          if(GreedyBot.isContestedFruitType(i))
+          {
+              var total_fruit = get_total_item_count(i);
+              if(total_fruit < valFruit)
+              {
+                  valFruit = total_fruit;
+                  index = i;
+              }
           }
       }
-      console.log(index)
       return index;
 
     },

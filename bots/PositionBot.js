@@ -154,7 +154,7 @@ var PositionBot = {
         else {
             var myDist = this.euclideanDistance(this.get_my_x(), x, this.get_my_y(), y);
             var oppDist = this.euclideanDistance(this.get_opponent_x(), x, this.get_opponent_y(), y);
-            if(myDist < oppDist) {
+            if(myDist <= oppDist) {
                 return true;
             }
             else {
