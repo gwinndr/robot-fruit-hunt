@@ -4,6 +4,11 @@ var Board = {
         Board.min_size = 5;
         Board.max_size = 15;
         Board.move_num = 0;
+        
+        //CompetitiveBot-------------
+        Board.opponentRecentFruit = 0;
+        Board.myRecentFruit = 0;
+        //---------------------------
 
         if (typeof(localStorage) != 'undefined' ) {
             $("#select_largeboard").show();
@@ -120,14 +125,34 @@ var Board = {
         if ((Board.myX == Board.oppX) && (Board.myY == Board.oppY) && (myMove == TAKE) && (simpleBotMove == TAKE) && Board.board[Board.myX][Board.myY] > 0) {
             Board.myBotCollected[Board.board[Board.myX][Board.myY]-1] = Board.myBotCollected[Board.board[Board.myX][Board.myY]-1] + 0.5;
             Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1] = Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1] + 0.5;
+            
+            //CompetitiveBot-------------
+            //Since "player" and "opponent" are splitting the fruit,
+            //records for each the fruit they BOTH just took/split
+            Board.myRecentFruit = Board.board[Board.myX][Board.myY];
+            Board.opponentRecentFruit = Board.board[Board.oppX][Board.oppY];
+            //---------------------------
+            
             Board.board[Board.myX][Board.myY] = 0;
         } else {
             if (myMove == TAKE && Board.board[Board.myX][Board.myY] > 0) {
                 Board.myBotCollected[Board.board[Board.myX][Board.myY]-1]++;
+                
+                //CompetitiveBot-------------
+                //Recording which fruit "player"just took
+                Board.myRecentFruit = Board.board[Board.myX][Board.myY];
+                //---------------------------
+                
                 Board.board[Board.myX][Board.myY] = 0;
             }
             if (simpleBotMove == TAKE && Board.board[Board.oppX][Board.oppY] > 0) {
                 Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1]++;
+                
+                //CompetitiveBot-------------
+                //Recording which fruit "opponent" just took
+                Board.opponentRecentFruit = Board.board[Board.oppX][Board.oppY];
+                //---------------------------
+                
                 Board.board[Board.oppX][Board.oppY] = 0;
             }
         }
@@ -297,3 +322,14 @@ function get_total_item_count(type) {
 function trace(mesg) {
     console.log(mesg);
 }
+
+//CompetitiveBot-------------
+
+//Functions used to return the most recent fruit picked up by either the "player" or the "opponent"
+function get_opponent_recent_fruit(){
+  return Board.opponentRecentFruit;
+}
+function get_my_recent_fruit(){
+  return Board.myRecentFruit;
+}
+//---------------------------
