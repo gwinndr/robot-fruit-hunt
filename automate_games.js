@@ -28,7 +28,7 @@ var Automate = {
             for(var i=0; i < n_bots; ++i)
             {
                 BOT_1 = BOTS_TO_TEST[i];
-                for(var j = i; j < n_bots; ++j)
+                for(var j = i+1; j < n_bots; ++j)
                 {
                     BOT_2 = BOTS_TO_TEST[j]
 
@@ -37,6 +37,32 @@ var Automate = {
                     {
                         match_dict[match_key] = [0,0,0,0]
                     }
+
+                    // Set for BOT_1
+                    BOT_1.get_my_x = get_my_x
+                    BOT_1.get_my_y = get_my_y
+                    BOT_1.get_my_item_count = get_my_item_count
+                    BOT_1.get_opponent_x = get_opponent_x
+                    BOT_1.get_opponent_y = get_opponent_y
+                    BOT_1.get_opponent_item_count = get_opponent_item_count
+
+                    //CompetitiveBot-Additions------------------------
+                    BOT_1.get_my_recent_fruit = get_my_recent_fruit
+                    BOT_1.get_opponent_recent_fruit = get_opponent_recent_fruit
+                    //-----------------------------------------------
+
+                    // Reverse for BOT_2
+                    BOT_2.get_my_x = get_opponent_x
+                    BOT_2.get_my_y = get_opponent_y
+                    BOT_2.get_my_item_count = get_opponent_item_count
+                    BOT_2.get_opponent_x = get_my_x
+                    BOT_2.get_opponent_y = get_my_y
+                    BOT_2.get_opponent_item_count = get_my_item_count
+
+                    //CompetitiveBot-Additions------------------------
+                    BOT_2.get_my_recent_fruit = get_opponent_recent_fruit
+                    BOT_2.get_opponent_recent_fruit = get_my_recent_fruit
+                    //-----------------------------------------------
 
                     // console.log(BOT_1.get_name() + " vs. " + BOT_2.get_name())
 
@@ -86,6 +112,8 @@ var Automate = {
         $('#board_number').val(nextBoardNum);
 
         Board.init(nextBoardNum);
+        Board = Board.initial_state;
+        Board.initial_state = {};
         Board.newGame();
 
         return nextBoardNum;
@@ -94,14 +122,17 @@ var Automate = {
     play: function()
     {
         var game_end = UNFINISHED;
-        for (var i = 0; i < MAX_MOVES; i++)
+        for (var i = 0; i < MAX_MOVES_AUTOMATE; i++)
         {
             Board.processMove();
 
+
             // Check for end condition
             var score = Board.checkGameOver();
-            if (score !== undefined)
+            // console.log(score)
+            if (score != undefined)
             {
+                // console.log(score)
                 if (score > 0)
                 {
                     game_end = BOT1_WIN;

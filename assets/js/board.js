@@ -4,7 +4,7 @@ var Board = {
         Board.min_size = 5;
         Board.max_size = 15;
         Board.move_num = 0;
-        
+
         //CompetitiveBot-------------
         Board.opponentRecentFruit = 0;
         Board.myRecentFruit = 0;
@@ -117,42 +117,42 @@ var Board = {
     },
     processMove: function() {
         Board.move_num++;
-        var move_start = new Date().getTime();
-        var myMove = make_move();
-        var elapsed = ((new Date().getTime() - move_start) / 1000).toFixed(2);
+        // var move_start = new Date().getTime();
+        var myMove = BOT_1.make_move();
+        // var elapsed = ((new Date().getTime() - move_start) / 1000).toFixed(2);
         // console.log("["+Board.move_num+"] elapsed time: "+elapsed+"s");
         var simpleBotMove = BOT_2.make_move();
         if ((Board.myX == Board.oppX) && (Board.myY == Board.oppY) && (myMove == TAKE) && (simpleBotMove == TAKE) && Board.board[Board.myX][Board.myY] > 0) {
             Board.myBotCollected[Board.board[Board.myX][Board.myY]-1] = Board.myBotCollected[Board.board[Board.myX][Board.myY]-1] + 0.5;
             Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1] = Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1] + 0.5;
-            
+
             //CompetitiveBot-------------
             //Since "player" and "opponent" are splitting the fruit,
             //records for each the fruit they BOTH just took/split
             Board.myRecentFruit = Board.board[Board.myX][Board.myY];
             Board.opponentRecentFruit = Board.board[Board.oppX][Board.oppY];
             //---------------------------
-            
+
             Board.board[Board.myX][Board.myY] = 0;
         } else {
             if (myMove == TAKE && Board.board[Board.myX][Board.myY] > 0) {
                 Board.myBotCollected[Board.board[Board.myX][Board.myY]-1]++;
-                
+
                 //CompetitiveBot-------------
                 //Recording which fruit "player"just took
                 Board.myRecentFruit = Board.board[Board.myX][Board.myY];
                 //---------------------------
-                
+
                 Board.board[Board.myX][Board.myY] = 0;
             }
             if (simpleBotMove == TAKE && Board.board[Board.oppX][Board.oppY] > 0) {
                 Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1]++;
-                
+
                 //CompetitiveBot-------------
                 //Recording which fruit "opponent" just took
                 Board.opponentRecentFruit = Board.board[Board.oppX][Board.oppY];
                 //---------------------------
-                
+
                 Board.board[Board.oppX][Board.oppY] = 0;
             }
         }
